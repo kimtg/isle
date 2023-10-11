@@ -1,0 +1,2 @@
+* defclass :boundp
+* conditions
