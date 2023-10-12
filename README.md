@@ -47,6 +47,7 @@ Example: `(cl:evenp 2)`
 # Major differences between ISLISP and Common Lisp
 * There is a global lexical variable. (`defglobal`)
 * Dynamic variable is explicit. (`dynamic`)
+* Keywords are not self-evaluating.
 * Destructuring is not supported in defmacro.
 
 # ISLISP Resources
