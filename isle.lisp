@@ -164,22 +164,27 @@
   (open filename :direction :input :element-type element-class))
 
 (defun open-output-file (filename &optional element-class)
-  (open filename :direction :output :element-type element-class))
+  (open filename :direction :output :if-does-not-exist :create :element-type element-class))
 
 (defun open-io-file (filename &optional element-class)
   (open filename :direction :io :element-type element-class))
 
-(defmacro with-open-output-file (name filename &optional element-class)
-  `(with-open-file ,name ,filename :direction :output :element-type ,element-class))
+(defmacro with-open-output-file ((name filename &optional element-class) &rest form*)
+  `(with-open-file (,name ,filename :direction :output :if-does-not-exist :create :element-type ,element-class) ,@form*))
 
-(defmacro with-open-io-file (name filename &optional element-class)
-  `(with-open-file ,name ,filename :direction :io :element-type ,element-class))
+(defmacro with-open-io-file ((name filename &optional element-class) &rest form*)
+  `(with-open-file (,name ,filename :direction :io :element-type ,element-class) ,@form*))
 
-(defmacro with-open-input-file (name filename &optional element-class)
-  `(with-open-file ,name ,filename :direction :input :element-type ,element-class))
+(defmacro with-open-input-file ((name filename &optional element-class) &rest form*)
+  `(with-open-file (,name ,filename :direction :input :element-type ,element-class) ,@form*))
 
 (defun preview-char (&rest r)
   (apply #'peek-char nil r))
+
+(defun stream-ready-p (input-stream)
+  (let ((c (read-char-no-hang input-stream)))
+    (cond (c (unread-char c input-stream) t)
+	  (t nil))))
 
 (defunalias create make-instance)
 (defunalias initialize-object initialize-instance)
