@@ -26,7 +26,23 @@
   
 (defmacro dynamic (a) (earmuff a))
 (defmacro set-dynamic (form var) `(setf ,form ,var))
-(defmacro while (test-form &rest body-form) `(loop while ,test-form do ,@body-form))
+;; 14. Control structure
+(defmacro while (test-form &rest body-form*) `(loop while ,test-form do ,@body-form*))
+(defmacro for ((&rest iteration-spec*) (end-test &rest result*) &rest form*)
+  `(loop 
+    ,@(apply #'append (mapcar (lambda (iter-spec) `(with ,(car iter-spec) = ,(second iter-spec))) iteration-spec*))
+    until ,end-test
+    do ,@form*
+    ,`(psetf
+       ,@(apply #'append
+		(remove nil
+			(mapcar (lambda (iter-spec)
+				  (if (>= (length iter-spec) 3) ; if step is there
+				      `(,(car iter-spec) ,(third iter-spec))
+				    nil)) ; no-op
+				iteration-spec*))))
+    finally (return (progn ,@result*))))
+
 (defmacro the (class-name form) `(cl:the ,(cl:eval class-name) ,form))
 (defmacro assure (&rest r) `(the ,@r))
 (defmacro convert (obj class-name) `(coerce ,obj ',class-name))
@@ -181,7 +197,7 @@
   (cond ((listp expr)
 	 (cond ((>= (length expr) 2) (case (car expr)
 					   (lambda `(lambda ,(translate-lambda-list (second expr)) ,@(cddr expr)))
-					   ((defun defgeneric) `(,(car expr) ,(second expr) ,(translate-lambda-list (third expr)) ,@(nthcdr 3 expr)))
+					   ((defun defgeneric defmacro) `(,(car expr) ,(second expr) ,(translate-lambda-list (third expr)) ,@(nthcdr 3 expr)))
 					   ((labels flet)
 					    `(,(car expr)
 					      ,(mapcar (lambda (binding) `(,(car binding) ,(translate-lambda-list (second binding)) ,@(cddr binding))) (second expr))
@@ -192,15 +208,6 @@
 
 (defun eval (expr) (cl:eval (il->cl expr)))
 
-(defun repl ()
-  (print-version)
-  (loop
-   (format t "> ")
-   (finish-output)
-   (handler-case (format t "~s~%" (eval (read)))
-     (end-of-file (e) (return))
-     (error (e) (format t "Error: ~a~%" e)))))
-
 (defun load (filename)
   (with-open-file (s filename)
 		  (loop
@@ -209,6 +216,15 @@
 			 (handler-case (eval expr)
 			   (error (e) (format t "~a in ~s~%" e expr) (return))))
 		     (end-of-file (e) (return))))))
+
+(defun repl ()
+  (print-version)
+  (loop
+   (format t "> ")
+   (finish-output)
+   (handler-case (format t "~s~%" (eval (read)))
+     (end-of-file (e) (return))
+     (error (e) (format t "Error: ~a~%" e)))))
 
 (defun main ()
   ;;(format t "argv: ~a~%" sb-ext:*posix-argv*)
