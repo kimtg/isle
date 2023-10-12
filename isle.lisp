@@ -191,6 +191,8 @@
 (defun report-condition (condition stream)
   (format stream "~a~%" condition))
 
+(defunalias continue-condition continue)
+
 (defmacro with-handler (handler &rest form*)
   `(handler-bind ((error handler)) ,@form*))
 
