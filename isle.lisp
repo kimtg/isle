@@ -1,6 +1,6 @@
 (defpackage :islisp
   (:use :cl)
-  (:shadow evenp oddp file-length the class / pi load eval defclass))
+  (:shadow evenp oddp file-length the class / pi load eval defclass internal-time-units-per-second))
 (in-package :islisp)
 
 (defconstant *version* "0.1")
@@ -179,6 +179,19 @@
 
 (defunalias create make-instance)
 (defunalias initialize-object initialize-instance)
+
+;; 29. Condition system
+(defun signal-condition (condition continuable)
+  (signal condition))
+
+(defun report-condition (condition stream)
+  (format stream "~a~%" condition))
+
+(defmacro with-handler (handler &rest form*)
+  `(handler-bind ((error handler)) ,@form*))
+
+;; 30. Miscellaneous
+(defun internal-time-units-per-second () cl:internal-time-units-per-second)
 
 ;; utility
 (defun build-exe (filename)
