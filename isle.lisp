@@ -153,7 +153,11 @@
     `(progn
        (cl:defclass ,(eval class-name) (,@sc-name*) (,@slot-spec*2) ,@class-opt*)
     ,@(loop for (f slot-name) in boundp-funs collect `(defmethod ,f ((instance ,(eval class-name))) (slot-boundp instance ',slot-name))))))
-  
+
+;; 18.2. Symbol properties
+(defmacro property (&rest r) `(get ,@r))
+(defun set-property (obj symbol property-name) (setf (property symbol property-name) obj))
+(defun remove-property (symbol property-name) (second (remprop symbol property-name)))
 
 ;; 26.1. Streams to files
 (defun open-input-file (filename &optional element-class)
