@@ -45,7 +45,6 @@
 
 (defmacro the (class-name form) `(cl:the ,(cl:eval class-name) ,form))
 (defmacro assure (&rest r) `(the ,@r))
-(defmacro convert (obj class-name) `(coerce ,obj ',class-name))
 (defmacro defunalias (new old) `(setf (fdefinition ',new) #',old))
 (defunalias subclassp subtypep)
 (defunalias class find-class)
@@ -151,8 +150,8 @@
 									 (t (prog1 (car s) (setf s (cdr s))))))
 		 slot))))
     `(progn
-       (cl:defclass ,(eval class-name) (,@sc-name*) (,@slot-spec*2) ,@class-opt*)
-    ,@(loop for (f slot-name) in boundp-funs collect `(defmethod ,f ((instance ,(eval class-name))) (slot-boundp instance ',slot-name))))))
+       (cl:defclass ,(cl:eval class-name) (,@sc-name*) (,@slot-spec*2) ,@class-opt*)
+    ,@(loop for (f slot-name) in boundp-funs collect `(defmethod ,f ((instance ,(cl:eval class-name))) (slot-boundp instance ',slot-name))))))
 
 ;; 18.2. Symbol properties
 (defmacro property (&rest r) `(get ,@r))
@@ -254,17 +253,19 @@
 		   (handler-case
 		       (let ((expr (read s)))
 			 (handler-case (eval expr)
-			   (error (e) (format t "~a in ~s~%" e expr) (return))))
-		     (end-of-file (e) (return))))))
+			   (error (e) (format t "Error: ~a in ~s~%" e expr) (return))))
+		     (end-of-file () (return))))))
 
 (defun repl ()
   (print-version)
   (loop
    (format t "> ")
    (finish-output)
-   (handler-case (format t "~s~%" (eval (read)))
-     (end-of-file (e) (return))
-     (error (e) (format t "Error: ~a~%" e)))))
+   (handler-case
+       (let ((expr (read)))
+	 (handler-case (format t "~s~%" (eval expr))
+	   (error (e) (format t "Error: ~a in ~s~%" e expr))))
+     (end-of-file () (return)))))
 
 (defun main ()
   ;;(format t "argv: ~a~%" sb-ext:*posix-argv*)
