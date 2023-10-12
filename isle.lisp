@@ -1,6 +1,6 @@
 (defpackage :islisp
   (:use :cl)
-  (:shadow evenp oddp file-length the class / pi load))
+  (:shadow evenp oddp file-length the class / pi load eval))
 (in-package :islisp)
 
 (defconstant *version* "0.1")
@@ -27,7 +27,7 @@
 (defmacro dynamic (a) (earmuff a))
 (defmacro set-dynamic (form var) `(setf ,form ,var))
 (defmacro while (test-form &rest body-form) `(loop while ,test-form do ,@body-form))
-(defmacro the (class-name form) `(cl:the ,(eval class-name) ,form))
+(defmacro the (class-name form) `(cl:the ,(cl:eval class-name) ,form))
 (defmacro assure (&rest r) `(the ,@r))
 (defmacro convert (obj class-name) `(coerce ,obj ',class-name))
 (defmacro defunalias (new old) `(setf (fdefinition ',new) #',old))
@@ -190,12 +190,14 @@
 	       (t (mapcar #'il->cl expr))))
 	(t (il->cl-simple expr))))
 
+(defun eval (expr) (cl:eval (il->cl expr)))
+
 (defun repl ()
   (print-version)
   (loop
    (format t "> ")
    (finish-output)
-   (handler-case (format t "~s~%" (eval (il->cl (read))))
+   (handler-case (format t "~s~%" (eval (read)))
      (end-of-file (e) (return))
      (error (e) (format t "Error: ~a~%" e)))))
 
@@ -204,7 +206,7 @@
 		  (loop
 		   (handler-case
 		       (let ((expr (read s)))
-			 (handler-case (eval (il->cl expr))
+			 (handler-case (eval expr)
 			   (error (e) (format t "~a in ~s~%" e expr) (return))))
 		     (end-of-file (e) (return))))))
 
