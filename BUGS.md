@@ -1,4 +1,4 @@
-The example in the ISLISP Working Draft 23.0 29.2.1. Operations relating to condition signaling
+The example in the ISLISP Working Draft 23.0 '29.2.1. Operations relating to condition signaling'
 ```
 (signal-condition (create (class <simple-error>)
                           'format-string "A ~A problem occurred."
