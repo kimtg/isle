@@ -1,6 +1,6 @@
 (defpackage :islisp
   (:use :cl)
-  (:shadow evenp oddp file-length the class / pi load eval))
+  (:shadow evenp oddp file-length the class / pi load eval defclass))
 (in-package :islisp)
 
 (defconstant *version* "0.1")
@@ -140,6 +140,20 @@
 (defunalias basic-vector-p simple-vector-p)
 (defunalias general-vector-p vectorp)
 (defunalias create-vector create-array)
+
+(defmacro defclass (class-name (&rest sc-name*) (&rest slot-spec*) &rest class-opt*)
+  (let* (boundp-funs (slot-spec*2
+	 (loop for slot in slot-spec* collect
+	       (if (listp slot)
+		   (loop with s = slot while s collect (cond ((eql (second s) :boundp)
+									  (push (list (third s) (car s)) boundp-funs)
+									  (prog1 (car s) (setf s (cdddr s))))
+									 (t (prog1 (car s) (setf s (cdr s))))))
+		 slot))))
+    `(progn
+       (cl:defclass ,(eval class-name) (,@sc-name*) (,@slot-spec*2) ,@class-opt*)
+    ,@(loop for (f slot-name) in boundp-funs collect `(defmethod ,f ((instance ,(eval class-name))) (slot-boundp instance ',slot-name))))))
+  
 
 ;; 26.1. Streams to files
 (defun open-input-file (filename &optional element-class)
