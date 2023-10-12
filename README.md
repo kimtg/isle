@@ -8,6 +8,7 @@ For reference, these days Racket is also implemented in Chez Scheme.
 
 # Goals
 * Learn Common Lisp
+* Learn how to use macros
 * Know the difference between ISLISP and Common Lisp
 
 ## Run
