@@ -177,6 +177,16 @@
 (defmacro with-open-input-file ((name filename &optional element-class) &rest form*)
   `(with-open-file (,name ,filename :direction :input :element-type ,element-class) ,@form*))
 
+(defun format-char (output-stream char) (format output-stream "~c" char))
+(defun format-float (output-stream float) (format output-stream "~g" float))
+(defun format-fresh-line (output-stream) (format output-stream "~&"))
+(defun format-integer (output-stream integer radix) (format output-stream "~vr" radix integer))
+(defun format-object (output-stream obj escape-p)
+  (format output-stream
+	  (if escape-p "~s" "~a") obj))
+
+(defun format-tab (output-stream column) (format output-stream "~vt" column))
+
 (defun preview-char (&rest r)
   (apply #'peek-char nil r))
 
