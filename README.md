@@ -21,6 +21,7 @@ OPTIONS:
 ```
 
 # How to build an executable of Isle ISLISP
+Right after starting Isle ISLISP,
 ```
 (build-exe "isle.exe")
 ```
