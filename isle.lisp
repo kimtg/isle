@@ -195,7 +195,12 @@
     (cond (c (unread-char c input-stream) t)
 	  (t nil))))
 
-(defunalias create make-instance)
+(defun create (class &rest bindings)
+  (let ((bindings2
+	 (loop with b = bindings while b collect (list (intern (symbol-name (car b)) "KEYWORD") (second b))
+	       do (setf b (cddr b)))))
+    (apply #'make-instance class (apply #'append bindings2))))
+
 (defunalias initialize-object initialize-instance)
 
 ;; 29. Condition system
