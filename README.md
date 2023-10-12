@@ -46,4 +46,4 @@ Example: `(cl:evenp 2)`
 
 # ISLISP Resources
 * [ISLISP Specification](http://www.islisp.org/ISLisp-spec.html)
-* [ISLISP HyperDraft](https://islisp-dev.github.io/ISLispHyperDraft/islisp-v23.html)
+* [ISLISP HyperDraft (HTML)](https://islisp-dev.github.io/ISLispHyperDraft/islisp-v23.html)
