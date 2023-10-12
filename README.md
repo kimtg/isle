@@ -37,6 +37,11 @@ See also: [Saving a Core Image - SBCL User Manual](http://www.sbcl.org/manual/#S
 You can use Common Lisp symbols by adding the cl: prefix. ISLISP symbols are defined in islisp package.
 Example: `(cl:evenp 2)`
 
+# ISLISP differs from Common Lisp mainly in the following points.
+* There is a global lexical variable. (`defglobal`)
+* Dynamic variable is explicit. (`dynamic`)
+* Destructuring is not supported in defmacro.
+
 # ISLISP Resources
 * [ISLISP Specification](http://www.islisp.org/ISLisp-spec.html)
 * [ISLISP HyperDraft](https://islisp-dev.github.io/ISLispHyperDraft/islisp-v23.html)
