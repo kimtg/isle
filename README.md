@@ -4,6 +4,8 @@ Isle ISLISP is an [ISLISP](http://www.islisp.org/) Compiler. It is written in Co
 # Motivation for implementing in Common Lisp
 I was thinking of modifying SBCL to remove features not in ISLISP and add features as appropriate, but SBCL is constantly improving and it is difficult to keep up, so I implemented it as a Common Lisp program in SBCL. Because Isle ISLISP uses SBCL, a top-of-the-line Common Lisp implementation, execution speed is top-notch.
 
+For reference, these days Racket is also implemented in Chez Scheme.
+
 # Goals
 * Learn Common Lisp
 * Know the difference between ISLISP and Common Lisp
