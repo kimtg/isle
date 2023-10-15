@@ -19,7 +19,7 @@ works.
 
 For the above reasons, specification '29.3. Data associated with condition classes' could not be implemented.
 
-For your information, OKI ISLisp, the reference implementation of ISLISP, cannot run the above example.
+For your information, [OKI ISLisp](http://www.islisp.org/OKIISLisp.html), the reference implementation of ISLISP, cannot run the above example.
 ```
 > ISLisp  Version 0.80 (1999/02/25)
 >
