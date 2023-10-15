@@ -41,6 +41,12 @@ See also: [Saving a Core Image - SBCL User Manual](http://www.sbcl.org/manual/#S
 You can use Common Lisp symbols by adding the cl: prefix. ISLISP symbols are defined in islisp package.
 Example: `(cl:evenp 2)`
 
+# Extended functions
+| Function              | Description                                    |
+| --------------------- | ---------------------------------------------- |
+| (eval form)           | evaluates form                                 |
+| (load filename)       | loads code from file e.g. (load "foo.lisp")    |
+
 # Bugs
 [BUGS file](BUGS.md)
 
