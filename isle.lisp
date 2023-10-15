@@ -260,6 +260,7 @@
 	       (t (mapcar #'il->cl expr))))
 	(t (il->cl-simple expr))))
 
+;; extended functions
 (defun eval (expr) (cl:eval (il->cl expr)))
 
 (defun load (filename)
@@ -271,6 +272,7 @@
 			   (error (e) (format t "Error: ~a in ~s~%" e expr) (return))))
 		     (end-of-file () (return))))))
 
+;; REPL
 (defun repl ()
   (print-version)
   (loop
@@ -282,6 +284,7 @@
 	   (error (e) (format t "Error: ~a in ~s~%" e expr))))
      (end-of-file () (return)))))
 
+;; entry
 (defun main ()
   ;;(format t "argv: ~a~%" sb-ext:*posix-argv*)
   (cond ((<= (length sb-ext:*posix-argv*) 1) (repl))
