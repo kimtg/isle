@@ -12,6 +12,7 @@ For reference, these days Racket is also implemented in Chez Scheme.
 * Know the difference between ISLISP and Common Lisp
 
 ## Run
+Run `isle.sh` or `isle.bat`.
 ```
 Usage: isle [OPTIONS...] [FILE]
 
@@ -23,6 +24,13 @@ OPTIONS:
 
 # How to build an executable of Isle ISLISP
 Right after starting Isle ISLISP,
+
+Unix-like:
+```
+(build-exe "isle")
+```
+
+Windows:
 ```
 (build-exe "isle.exe")
 ```
@@ -40,6 +48,12 @@ See also: [Saving a Core Image - SBCL User Manual](http://www.sbcl.org/manual/#S
 # How to use features of Common Lisp
 You can use Common Lisp symbols by adding the cl: prefix. ISLISP symbols are defined in islisp package.
 Example: `(cl:evenp 2)`
+
+# Extended functions
+| Function              | Description                                    |
+| --------------------- | ---------------------------------------------- |
+| (eval form)           | evaluates form                                 |
+| (load filename)       | loads code from file e.g. (load "foo.lisp")    |
 
 # Bugs
 [BUGS file](BUGS.md)
