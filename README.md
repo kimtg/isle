@@ -12,6 +12,7 @@ For reference, these days Racket is also implemented in Chez Scheme.
 * Know the difference between ISLISP and Common Lisp
 
 ## Run
+Run `isle.sh` or `isle.bat`.
 ```
 Usage: isle [OPTIONS...] [FILE]
 
@@ -23,6 +24,13 @@ OPTIONS:
 
 # How to build an executable of Isle ISLISP
 Right after starting Isle ISLISP,
+
+Unix-like:
+```
+(build-exe "isle")
+```
+
+Windows:
 ```
 (build-exe "isle.exe")
 ```
