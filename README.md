@@ -50,10 +50,10 @@ You can use Common Lisp symbols by adding the cl: prefix. ISLISP symbols are def
 Example: `(cl:evenp 2)`
 
 # Extended functions
-| Function              | Description                                    |
-| --------------------- | ---------------------------------------------- |
-| (eval form)           | evaluates form                                 |
-| (load filename)       | loads code from file e.g. (load "foo.lisp")    |
+| Function          | Description                                       |
+| ----------------- | ------------------------------------------------- |
+| (eval *form*)     | evaluates *form*                                  |
+| (load *filename*) | loads code from *filename* e.g. (load "foo.lisp") |
 
 # Bugs
 [BUGS file](BUGS.md)
