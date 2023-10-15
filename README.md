@@ -1,5 +1,5 @@
 # Isle ISLISP
-Isle ISLISP is an [ISLISP](http://www.islisp.org/) Compiler. It is written in Common Lisp ([Steel Bank Common Lisp](https://sbcl.org/)). Because it is implemented in Common Lisp, the source code itself demonstrates the differences between ISLISP and Common Lisp.
+Isle ISLISP is an [ISLISP](https://en.wikipedia.org/wiki/ISLISP) Compiler. It is written in Common Lisp ([Steel Bank Common Lisp](https://sbcl.org/)). Because it is implemented in Common Lisp, the source code itself demonstrates the differences between ISLISP and Common Lisp.
 
 # Motivation for implementing in Common Lisp
 I was thinking of modifying SBCL to remove features not in ISLISP and add features as appropriate, but SBCL is constantly improving and it is difficult to keep up, so I implemented it as a Common Lisp program in SBCL. Because Isle ISLISP uses SBCL, a top-of-the-line Common Lisp implementation, execution speed is top-notch.
