@@ -44,7 +44,7 @@ Example: `(cl:evenp 2)`
 # Bugs
 [BUGS file](BUGS.md)
 
-# Major differences between ISLISP and Common Lisp
+# Major differences from Common Lisp
 * There is a global lexical variable. (`defglobal`)
 * Dynamic variable is explicit. (`dynamic`)
 * Keywords are not self-evaluating.
