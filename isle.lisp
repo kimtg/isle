@@ -3,7 +3,7 @@
   (:shadow evenp oddp file-length the class / pi load eval defclass internal-time-units-per-second))
 (in-package :islisp)
 
-(defconstant *version* "0.1")
+(defconstant *version* "0.2")
 (defun print-version ()
   (format t "Isle ISLISP v~a~%" *version*))
 
@@ -270,7 +270,8 @@
 		       (let ((expr (read s)))
 			 (handler-case (eval expr)
 			   (error (e) (format t "Error: ~a in ~s~%" e expr) (return))))
-		     (end-of-file () (return))))))
+		     (end-of-file () (return))
+		     (error (e) (format t "Error: ~a~%" e))))))
 
 ;; REPL
 (defun repl ()
@@ -282,7 +283,8 @@
        (let ((expr (read)))
 	 (handler-case (format t "~s~%" (eval expr))
 	   (error (e) (format t "Error: ~a in ~s~%" e expr))))
-     (end-of-file () (return)))))
+     (end-of-file () (return))
+     (error (e) (format t "Error: ~a~%" e)))))
 
 ;; entry
 (defun main ()
