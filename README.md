@@ -62,7 +62,7 @@ Example: `(cl:evenp 2)`
 * There is a global lexical variable. (`defglobal`)
 * Dynamic variable is explicit. (`dynamic`)
 * Keywords are not self-evaluating.
-* Destructuring is not supported in defmacro.
+* Destructuring is not supported in `defmacro`.
 
 # ISLISP Resources
 * [ISLISP Specification](http://www.islisp.org/ISLisp-spec.html)
