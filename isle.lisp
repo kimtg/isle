@@ -3,7 +3,7 @@
   (:shadow evenp oddp file-length the class / pi load eval defclass internal-time-units-per-second))
 (in-package :islisp)
 
-(defconstant *version* "0.2")
+(defconstant *version* "0.3")
 (defun print-version ()
   (format t "Isle ISLISP v~a~%" *version*))
 
@@ -289,17 +289,19 @@
 ;; entry
 (defun main ()
   ;;(format t "argv: ~a~%" sb-ext:*posix-argv*)
-  (cond ((<= (length sb-ext:*posix-argv*) 1) (repl))
-	((string= (second sb-ext:*posix-argv*) "-h")
-	 (format t "Usage: isle [OPTIONS...] [FILE]~%")
-	 (format t "~%")
-	 (format t "OPTIONS:~%")
-	 (format t "    -h	print this screen.~%")
-	 (format t "    -v	print version.~%")
-	 (format t " If no FILE is specified, the REPL is run.~%"))
-	((string= (second sb-ext:*posix-argv*) "-v")
-	 (print-version))
-	;; FILE
-	(t (load (second sb-ext:*posix-argv*)))))
+  (let ((argv sb-ext:*posix-argv*))
+    (cond ((<= (length argv) 1) (repl))
+	  ((string= (second argv) "-h")
+	   (write-line
+		   "Usage: isle [OPTIONS...] [FILE]
+
+OPTIONS:
+    -h	print this screen.
+    -v	print version.
+ If no FILE is specified, the REPL is run."))
+	  ((string= (second argv) "-v")
+	   (print-version))
+	  ;; FILE
+	  (t (load (second argv))))))
 
 (main)
