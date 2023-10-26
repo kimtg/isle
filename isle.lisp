@@ -3,7 +3,7 @@
   (:shadow evenp oddp file-length the class / pi load eval defclass internal-time-units-per-second))
 (in-package :islisp)
 
-(defconstant *version* "0.5")
+(defconstant *version* "0.6")
 (defun print-version ()
   (format t "Isle ISLISP v~a~%" *version*))
 
@@ -21,10 +21,11 @@
 
 (defmacro defdynamic (name form) `(defparameter ,(earmuff name) ,form))
 (defmacro dynamic-let (bindings &rest forms)
-  `(progn ,@(mapcar (lambda (binding) `(defvar ,(earmuff (car binding)))) bindings)
-	  (let ,(mapcar (lambda (binding) `(,(earmuff (car binding)) ,(second binding))) bindings) ,@forms)))
+  `(let ,(mapcar (lambda (binding) `(,(earmuff (car binding)) ,(second binding))) bindings)
+     ,@(mapcar (lambda (binding) `(declare (special ,(earmuff (car binding))))) bindings)
+     ,@forms))
   
-(defmacro dynamic (a) (earmuff a))
+(defmacro dynamic (a) `(symbol-value ',(earmuff a)))
 (defmacro set-dynamic (form var) `(setf ,form ,var))
 ;; 14. Control structure
 (defmacro while (test-form &rest body-form*) `(loop while ,test-form do ,@body-form*))
