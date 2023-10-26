@@ -3,7 +3,7 @@
   (:shadow evenp oddp file-length the class / pi load eval defclass internal-time-units-per-second))
 (in-package :islisp)
 
-(defconstant *version* "0.4")
+(defconstant *version* "0.5")
 (defun print-version ()
   (format t "Isle ISLISP v~a~%" *version*))
 
@@ -37,11 +37,11 @@
 (defunalias class find-class)
 (defunalias instancep typep)
 (defunalias set-file-position file-position)
-(defun / (&rest xs)
+(defun float-/ (&rest xs)
   (let ((r (apply #'cl:/ xs))) (if (integerp r) r (float r))))
 
-(defun quotient (dividend divisor1 &rest divisors) (apply #'/ dividend divisor1 divisors))
-(defun reciprocal (x) (/ x))
+(defun quotient (dividend divisor1 &rest divisors) (apply #'float-/ dividend divisor1 divisors))
+(defun reciprocal (x) (float-/ x))
 (defconstant *pi* cl:pi)
 (defconstant *most-positive-float* most-positive-double-float)
 (defconstant *most-negative-float* most-negative-double-float)
