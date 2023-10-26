@@ -3,7 +3,7 @@
   (:shadow evenp oddp file-length the class / pi load eval defclass internal-time-units-per-second))
 (in-package :islisp)
 
-(defconstant *version* "0.3")
+(defconstant *version* "0.4")
 (defun print-version ()
   (format t "Isle ISLISP v~a~%" *version*))
 
@@ -28,20 +28,7 @@
 (defmacro set-dynamic (form var) `(setf ,form ,var))
 ;; 14. Control structure
 (defmacro while (test-form &rest body-form*) `(loop while ,test-form do ,@body-form*))
-(defmacro for ((&rest iteration-spec*) (end-test &rest result*) &rest form*)
-  `(loop 
-    ,@(apply #'append (mapcar (lambda (iter-spec) `(with ,(car iter-spec) = ,(second iter-spec))) iteration-spec*))
-    until ,end-test
-    do ,@form*
-    ,`(psetf
-       ,@(apply #'append
-		(remove nil
-			(mapcar (lambda (iter-spec)
-				  (if (>= (length iter-spec) 3) ; if step is there
-				      `(,(car iter-spec) ,(third iter-spec))
-				    nil)) ; no-op
-				iteration-spec*))))
-    finally (return (progn ,@result*))))
+(defmacro for (&rest r) `(do ,@r))
 
 (defmacro the (class-name form) `(cl:the ,(cl:eval class-name) ,form))
 (defmacro assure (&rest r) `(the ,@r))
