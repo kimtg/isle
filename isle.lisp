@@ -3,7 +3,7 @@
   (:shadow evenp oddp file-length the class / pi load eval defclass internal-time-units-per-second))
 (in-package :islisp)
 
-(defconstant *version* "0.6")
+(defconstant *version* "0.7")
 (defun print-version ()
   (format t "Isle ISLISP v~a~%" *version*))
 
@@ -276,6 +276,7 @@
 
 ;; entry
 (defun main ()
+  (in-package :islisp)
   ;;(format t "argv: ~a~%" sb-ext:*posix-argv*)
   (let ((argv sb-ext:*posix-argv*))
     (cond ((<= (length argv) 1) (repl))
