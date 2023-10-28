@@ -3,7 +3,7 @@
   (:shadow evenp oddp file-length the class / pi load eval defclass internal-time-units-per-second))
 (in-package :islisp)
 
-(defconstant *version* "0.7")
+(defconstant *version* "0.8")
 (defun print-version ()
   (format t "Isle ISLISP v~a~%" *version*))
 
@@ -91,7 +91,9 @@
 (defunalias format-fresh-line fresh-line)
 
 (defun parse-number (string)
-  (let ((*read-eval* nil)) (read (make-string-input-stream string))))  
+  (let ((*read-eval* nil)
+  	(r (read (make-string-input-stream string))))
+    (if (numberp r) r (error "~a is not a number." string))))
 
 (defun convert (obj classname)
   (case classname
@@ -203,7 +205,7 @@
     (continue condition)))
 
 (defmacro with-handler (handler &rest form*)
-  `(handler-bind ((error handler)) ,@form*))
+  `(handler-bind ((error ,handler)) ,@form*))
 
 ;; 30. Miscellaneous
 (defun internal-time-units-per-second () cl:internal-time-units-per-second)
@@ -257,7 +259,7 @@
 		   (handler-case
 		       (let ((expr (read s)))
 			 (handler-case (eval expr)
-			   (error (e) (format t "Error: ~a in ~s~%" e expr) (return))))
+			   (error (e) (format t "Error: ~a~%" e) (return))))
 		     (end-of-file () (return))
 		     (error (e) (format t "Error: ~a~%" e))))))
 
@@ -270,7 +272,7 @@
    (handler-case
        (let ((expr (read)))
 	 (handler-case (format t "~s~%" (eval expr))
-	   (error (e) (format t "Error: ~a in ~s~%" e expr))))
+	   (error (e) (format t "Error: ~a~%" e))))
      (end-of-file () (return))
      (error (e) (format t "Error: ~a~%" e)))))
 
