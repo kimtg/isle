@@ -1,3 +1,12 @@
+;;; Load quicklisp even when not reading init files like when using sbcl
+;;; --script
+#-quicklisp
+(let ((quicklisp-init (merge-pathnames "quicklisp/setup.lisp"
+                                       (user-homedir-pathname))))
+  (when (probe-file quicklisp-init)
+    (load quicklisp-init)))
+(ql:quickload '(:uiop) :silent t)
+
 (defpackage :islisp
   (:use :cl)
   (:shadow evenp oddp file-length the class / pi load eval defclass internal-time-units-per-second))
@@ -24,7 +33,7 @@
   `(let ,(mapcar (lambda (binding) `(,(earmuff (car binding)) ,(second binding))) bindings)
      ,@(mapcar (lambda (binding) `(declare (special ,(earmuff (car binding))))) bindings)
      ,@forms))
-  
+
 (defmacro dynamic (a) `(symbol-value ',(earmuff a)))
 (defmacro set-dynamic (form var) `(setf ,form ,var))
 ;; 14. Control structure
@@ -280,10 +289,10 @@
 ;; entry
 (defun main ()
   (in-package :islisp)
-  ;;(format t "argv: ~a~%" sb-ext:*posix-argv*)
-  (let ((argv sb-ext:*posix-argv*))
-    (cond ((<= (length argv) 1) (repl))
-	  ((string= (second argv) "-h")
+  ;;(format t "argv: ~a~%" (uiop:command-line-arguments))
+  (let ((argv (uiop:command-line-arguments)))
+    (cond ((= (length argv) 0) (repl))
+	  ((string= (first argv) "-h")
 	   (write-line
 		   "Usage: isle [OPTIONS...] [FILE]
 
@@ -291,9 +300,9 @@ OPTIONS:
     -h	print this screen.
     -v	print version.
  If no FILE is specified, the REPL is run."))
-	  ((string= (second argv) "-v")
+	  ((string= (first argv) "-v")
 	   (print-version))
 	  ;; FILE
-	  (t (load (second argv))))))
+	  (t (load (first argv))))))
 
 (main)
