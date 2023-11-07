@@ -5,7 +5,7 @@
                                        (user-homedir-pathname))))
   (when (probe-file quicklisp-init)
     (load quicklisp-init)))
-(ql:quickload '(:uiop) :silent t)
+(ql:quickload '(:uiop :with-user-abort) :silent t)
 
 (defpackage :islisp
   (:use :cl)
@@ -279,12 +279,12 @@
    (format t "> ")
    (finish-output)
    (handler-case
-       (let ((expr (read)))
-         (handler-case (format t "~s~%" (eval expr))
-           (error (e) (format t "Error: ~a~%" e))))
-       (end-of-file () (return))
-       (sb-sys:interactive-interrupt () (return)) ; Ctrl+C
-       (error (e) (format t "Error: ~a~%" e)))))
+       (with-user-abort:with-user-abort
+           (let ((expr (read)))
+             (format t "~s~%" (eval expr))))
+     (end-of-file () (uiop:quit 0 t))
+     (with-user-abort:user-abort () (uiop:quit 1 t)) ; Ctrl+C
+     (error (e) (format t "Error: ~a~%" e)))))
 
 ;; entry
 (defun main ()
