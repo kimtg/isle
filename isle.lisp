@@ -221,7 +221,9 @@
 
 ;; utility
 (defun build-exe (filename)
-  (sb-ext:save-lisp-and-die filename :toplevel #'main :executable t))
+  (setq uiop:*image-entry-point* #'main)
+  (uiop:dump-image filename :executable t)
+  (uiop:quit 0 t))
 
 ;; translator
 (defun translate-lambda-list (expr)
