@@ -301,9 +301,11 @@
 OPTIONS:
     -h	print this screen.
     -v	print version.
- If no FILE is specified, the REPL is run."))
+ If no FILE is specified, the REPL is run.")
+           (uiop:quit 0 t))
 	  ((string= (first argv) "-v")
-	   (print-version))
+	   (print-version)
+           (uiop:quit 0 t))
 	  ;; FILE
 	  (t (load (first argv))))))
 
