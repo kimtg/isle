@@ -1,18 +1,10 @@
-;;; Load quicklisp even when not reading init files like when using sbcl
-;;; --script
-#-quicklisp
-(let ((quicklisp-init (merge-pathnames "quicklisp/setup.lisp"
-                                       (user-homedir-pathname))))
-  (when (probe-file quicklisp-init)
-    (load quicklisp-init)))
-(ql:quickload '(:uiop :with-user-abort) :silent t)
-
+(require "asdf")
 (defpackage :islisp
   (:use :cl)
   (:shadow evenp oddp file-length the class / pi load eval defclass internal-time-units-per-second))
 (in-package :islisp)
 
-(defconstant *version* "0.9")
+(defconstant *version* "0.10")
 (defun print-version ()
   (format t "Isle ISLISP v~a~%" *version*))
 
@@ -97,7 +89,6 @@
 
 (defunalias create-string-input-stream make-string-input-stream)
 (defunalias create-string-output-stream make-string-output-stream)
-(defunalias format-fresh-line fresh-line)
 
 (defun parse-number (string)
   (let ((*read-eval* nil)
@@ -281,11 +272,9 @@
    (format t "> ")
    (finish-output)
    (handler-case
-       (with-user-abort:with-user-abort
-           (let ((expr (read)))
-             (format t "~s~%" (eval expr))))
+       (let ((expr (read)))
+	 (format t "~s~%" (eval expr)))
      (end-of-file () (uiop:quit 0 t))
-     (with-user-abort:user-abort () (uiop:quit 1 t)) ; Ctrl+C
      (error (e) (format t "Error: ~a~%" e)))))
 
 ;; entry

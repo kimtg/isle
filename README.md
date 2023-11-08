@@ -20,8 +20,7 @@ For reference, these days Racket is also implemented in Chez Scheme.
 
 ## Dependencies
 
-* [Quicklisp](https://www.quicklisp.org/beta/) must be installed. It will
-  handle installing other dependencies if needed.
+* [ASDF](https://asdf.common-lisp.dev/) ASDF is the de facto standard build facility for Common Lisp. Your Lisp implementation probably contains a copy of ASDF, which you can load using (require "asdf").
 
 ## Run
 
