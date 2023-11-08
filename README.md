@@ -1,8 +1,15 @@
 # Isle ISLISP
-Isle ISLISP is an [ISLISP](https://en.wikipedia.org/wiki/ISLISP) Compiler. It is written in Common Lisp ([Steel Bank Common Lisp](https://sbcl.org/)). Because it is implemented in Common Lisp, the source code itself demonstrates the differences between ISLISP and Common Lisp.
+Isle ISLISP is an [ISLISP](https://en.wikipedia.org/wiki/ISLISP) Compiler. It
+is written in Common Lisp. Because it is implemented in Common Lisp, the
+source code itself demonstrates the differences between ISLISP and Common
+Lisp.
 
 # Motivation for implementing in Common Lisp
-I was thinking of modifying SBCL to remove features not in ISLISP and add features as appropriate, but SBCL is constantly improving and it is difficult to keep up, so I implemented it as a Common Lisp program in SBCL. Because Isle ISLISP uses SBCL, a top-of-the-line Common Lisp implementation, execution speed is top-notch.
+I was thinking of modifying SBCL to remove features not in ISLISP and add
+features as appropriate, but SBCL is constantly improving and it is difficult
+to keep up, so I implemented it as a Common Lisp program. Because Isle ISLISP
+uses SBCL by default, a top-of-the-line Common Lisp implementation, execution
+speed is top-notch.
 
 For reference, these days Racket is also implemented in Chez Scheme.
 
@@ -11,7 +18,13 @@ For reference, these days Racket is also implemented in Chez Scheme.
 * Learn how to use macros
 * Know the difference between ISLISP and Common Lisp
 
+## Dependencies
+
+* [Quicklisp](https://www.quicklisp.org/beta/) must be installed. It will
+  handle installing other dependencies if needed.
+
 ## Run
+
 Run `isle.sh` or `isle.bat`.
 ```
 Usage: isle [OPTIONS...] [FILE]
@@ -21,6 +34,21 @@ OPTIONS:
     -v  print version.
  If no FILE is specified, the REPL is run.
 ```
+
+The shell script uses SBCL by default, but other Common Lisp implementations
+can be used by setting the `ISLE_IMPL` environment variable. Currently
+supported CLs are:
+
+* sbcl
+* ccl
+* clisp
+
+```
+ISLE_IMPL=ccl ./isle.sh
+```
+
+Other implementations can be used manually; consider enhancing the script with
+support for them if you use something else.
 
 # How to build an executable of Isle ISLISP
 Right after starting Isle ISLISP,
