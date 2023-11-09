@@ -220,7 +220,7 @@
 (defun translate-lambda-list (expr)
   ":rest -> &rest"
   (if (listp expr)
-      (mapcar (lambda (x) (case x (:rest '&rest) (otherwise x))) expr)
+      (substitute '&rest :rest expr)
     expr))
 
 (defun il->cl-simple (expr)
