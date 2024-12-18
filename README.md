@@ -85,7 +85,7 @@ Example: `(cl:evenp 2)`
 | (macroexpand-1 *form*) | expands *form* once                                          |
 
 # Bugs
-[BUGS file](BUGS.md)
+`signal-condition` ignores `continuable` argument.
 
 # Major differences from Common Lisp
 * There is a global lexical variable. (`defglobal`)
