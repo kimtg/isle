@@ -4,7 +4,7 @@
   (:shadow evenp oddp file-length the class / pi load eval defclass internal-time-units-per-second))
 (in-package :islisp)
 
-(defconstant *version* "0.10")
+(defconstant *version* "0.11")
 (defun print-version ()
   (format t "Isle ISLISP v~a~%" *version*))
 
@@ -226,16 +226,17 @@
 (defun il->cl-simple (expr)
   (if (symbolp expr)
       (case expr
-	    ((<general-vector>) ''simple-vector)
-	    (otherwise
-	     (let ((s (string expr)))
-	       ;; <class> -> 'class
-	       (cond ((and
-		       (>= (length s) 3)
-		       (char= (elt s 0) #\<)
-		       (char= (elt s (1- (length s))) #\>))
-		      `(quote ,(intern (subseq (string expr) 1 (- (length (string expr)) 1)))))
-		     (t expr)))))
+        ((<general-vector>) ''simple-vector)
+        (format-string 'format-control)
+        (otherwise
+         (let ((s (string expr)))
+           ;; <class> -> 'class
+           (cond ((and
+                   (>= (length s) 3)
+                   (char= (elt s 0) #\<)
+                   (char= (elt s (1- (length s))) #\>))
+                  `(quote ,(intern (subseq (string expr) 1 (- (length (string expr)) 1)))))
+                 (t expr)))))
     expr))
 
 (defun il->cl (expr)
