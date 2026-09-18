@@ -29,9 +29,11 @@ Run `isle.sh` or `isle.bat`.
 Usage: isle [OPTIONS...] [FILE]
 
 OPTIONS:
-    -h  print this screen.
-    -v  print version.
- If no FILE is specified, the REPL is run.
+    -h, --help       print this screen.
+    -v, --version    print version.
+    -e, --eval EXPR  evaluate EXPR and exit.
+
+If no FILE or -e is specified, the REPL is run.
 ```
 
 The shell script uses SBCL by default, but other Common Lisp implementations
@@ -84,14 +86,22 @@ Example: `(cl:evenp 2)`
 | (macroexpand *form*)   | repeatedly expands *form* until it is no longer a macro form |
 | (macroexpand-1 *form*) | expands *form* once                                          |
 
-# Bugs
-`signal-condition` ignores `continuable` argument.
+## Tests
+Run the automated test suite:
+```
+./isle.sh tests/test.il
+```
+or on Windows:
+```
+isle.bat tests\test.il
+```
 
 # Major differences from Common Lisp
 * There is a global lexical variable. (`defglobal`)
 * Dynamic variable is explicit. (`dynamic`)
 * Keywords are not self-evaluating.
 * Destructuring is not supported in `defmacro`.
+* ISLISP does not have `/`; it uses `quotient` for real division and `div` for integer division.
 
 # ISLISP Resources
 * [ISLISP Specification](http://www.islisp.org/ISLisp-spec.html)
