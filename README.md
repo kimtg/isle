@@ -82,7 +82,7 @@ Example: `(cl:evenp 2)`
 | Function               | Description                                                  |
 |------------------------|--------------------------------------------------------------|
 | (eval *form*)          | evaluates *form*                                             |
-| (load *filename*)      | loads code from *filename* e.g. (load "foo.lisp")            |
+| (load *filename*)      | loads code from *filename* e.g. (load "foo.il")            |
 | (macroexpand *form*)   | repeatedly expands *form* until it is no longer a macro form |
 | (macroexpand-1 *form*) | expands *form* once                                          |
 
