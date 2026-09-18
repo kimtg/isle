@@ -102,6 +102,7 @@ isle.bat tests\test.il
 * Keywords are not self-evaluating.
 * Destructuring is not supported in `defmacro`.
 * ISLISP does not have `/`; it uses `quotient` for real division and `div` for integer division.
+* `equal` compares vectors element-by-element recursively.
 
 # ISLISP Resources
 * [ISLISP Specification](http://www.islisp.org/ISLisp-spec.html)
